@@ -194,8 +194,9 @@ class HandleTranslation implements handle {
 		} catch (err) {
 			throw (err);
 		}
+
 		try {
-			res = this.env.AI.run(opt.model, {
+			res = await this.env.AI.run(opt.model, {
 				text: opt.text,
 				source_lang: opt.source_lang,
 				target_lang: opt.target_lang,
@@ -211,22 +212,22 @@ class HandleTranslation implements handle {
 
 		let jsonData:{[key:string]:string} = await this.request.json();
 		let modelName = jsonData.model || 'm2m100-1.2b';
-		let source_lang = jsonData.source_lang;
+		let source_lang = jsonData.source_lang || 'english';
 		let target_lang = jsonData.target_lang;
 		let text = jsonData.text;
 
 		if (!source_lang || !target_lang || !text) {
 			throw ('missing paramter!')
 		}
-		let model;	
+		let modelInfo;
 		try {
-			model = getModel(modelName, 'translation');
+			modelInfo = getModel(modelName, 'translation');
 		} catch (err) {
 			throw (err);
 		}
 
 		return {
-			'model': model,
+			'model': modelInfo['model'],
 			'source_lang': source_lang,
 			'target_lang': target_lang,
 			'text': text,
