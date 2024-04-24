@@ -128,32 +128,31 @@ class HandleASR implements handle {
 
 		let opt: { [key: string]: string };
 		try { opt = await this.processRequest(); } catch (err) { throw (err); }
-			
+
 		const blob = opt.blob;
 		const input = { audio: [...new Uint8Array(blob)], };
 		const response = await this.env.AI.run(opt.model, input);
-	
+
 		return Response.json({ input: { audio: [] }, response });
 	}
 
 	async processRequest(): Promise<{ [key: string]: string }> {
-		//let jsonData  = await this.request.text();
+		let arrayBuff;
+		let model;
 		let formData = await this.request.formData();
-		let arrayBuff = await formData.get('file').arrayBuffer();
 		let modelName:string = formData.get('model')|| 'whisper';
 
-		let modelInfo;
 		try {
-			modelInfo = getModel(modelName, 'asr');
+
+			let modelInfo = getModel(modelName, 'asr');
+			arrayBuff = await formData.get('file')?.arrayBuffer();
+			model = modelInfo['model']
 		} catch (err) {
-			throw (err);
+			throw(err)
 		}
 		
-		if (!arrayBuff) {
-			throw('No voice file found.')
-		}
 		return {
-			'model': modelInfo['model'],
+			'model': model,
 			'blob': arrayBuff,
 		}
 	}

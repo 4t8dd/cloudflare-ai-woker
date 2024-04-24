@@ -8,6 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 import handler from './handlers';
+
 export interface Env {
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
 	// MY_KV_NAMESPACE: KVNamespace;
@@ -36,17 +37,28 @@ export default {
 				}
 			})
 		}
-		
+/*
+		const auth = process.env['AUTH'];
+		if (auth) {
+			const apiKey = request.headers.get('Authorization')?.split(' ')[1];
+			if (apiKey !== auth) {
+				return new Response('Request denied', {
+					status: 401,
+					headers: { 'content-type': 'text/plain' }
+				});
+			}
+		}
+*/
 		let url = new URL(request.url);
 		let url_path = url.pathname;
 		if (url_path.endsWith("/v1/chat/completions")) {
 			return await handler(request, env, 'completions');
 		} else if (url_path.endsWith('/v1/audio/transcriptions'))
-			return handler(request, env, 'asr');
+			return await handler(request, env, 'asr');
 		else if (url_path.endsWith('/v1/images/generations'))
-			return handler(request, env, 'text2img');
+			return await handler(request, env, 'text2img');
 		else if (url_path.endsWith('/v1/chat/translation'))
-			return handler(request, env, 'translation');
+			return await handler(request, env, 'translation');
 		else {
 			return new Response(url.pathname + "not supported", {
 				status: 502,
