@@ -11,7 +11,7 @@ import handler from './handlers';
 
 export interface Env {
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
+	MY_KV_NAMESPACE: myns;
 	//
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
 	// MY_DURABLE_OBJECT: DurableObjectNamespace;
@@ -28,17 +28,17 @@ export interface Env {
 }
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		if (request.method !== "POST") {
+		if (request.method !== 'POST') {
 			return new Response(null, {
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Method': 'POST',
 					'Access-Control-Allow-Headers': '*',
-				}
-			})
+				},
+			});
 		}
-/*
-		const auth = process.env['AUTH'];
+
+		const auth = await env.myns.get("auth");
 		if (auth) {
 			const apiKey = request.headers.get('Authorization')?.split(' ')[1];
 			if (apiKey !== auth) {
@@ -47,24 +47,24 @@ export default {
 					headers: { 'content-type': 'text/plain' }
 				});
 			}
+		} else {
+			return new Response('Request denied', {
+				status: 401,
+				headers: { ' content-type': 'text/plain' }}
 		}
-*/
+
 		let url = new URL(request.url);
 		let url_path = url.pathname;
-		if (url_path.endsWith("/v1/chat/completions")) {
+		if (url_path.endsWith('/v1/chat/completions')) {
 			return await handler(request, env, 'completions');
-		} else if (url_path.endsWith('/v1/audio/transcriptions'))
-			return await handler(request, env, 'asr');
-		else if (url_path.endsWith('/v1/images/generations'))
-			return await handler(request, env, 'text2img');
-		else if (url_path.endsWith('/v1/chat/translation'))
-			return await handler(request, env, 'translation');
+		} else if (url_path.endsWith('/v1/audio/transcriptions')) return await handler(request, env, 'asr');
+		else if (url_path.endsWith('/v1/images/generations')) return await handler(request, env, 'text2img');
+		else if (url_path.endsWith('/v1/chat/translation')) return await handler(request, env, 'translation');
 		else {
-			return new Response(url.pathname + "not supported", {
+			return new Response(url.pathname + 'not supported', {
 				status: 502,
-				headers: { 'content-type': 'text/plain' }
+				headers: { 'content-type': 'text/plain' },
 			});
 		}
-	}
+	},
 };
-
