@@ -11,7 +11,7 @@ import handler from './handlers';
 
 export interface Env {
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	MY_KV_NAMESPACE: myns;
+	myns: KVNamespace;
 	//
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
 	// MY_DURABLE_OBJECT: DurableObjectNamespace;
@@ -50,7 +50,8 @@ export default {
 		} else {
 			return new Response('Request denied', {
 				status: 401,
-				headers: { ' content-type': 'text/plain' }}
+				headers: { ' content-type': 'text/plain' }
+			});
 		}
 
 		let url = new URL(request.url);

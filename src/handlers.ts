@@ -21,10 +21,16 @@ class HandleCompletionOrChat implements handle {
 		} catch (err) {
 			throw(err)
 		}
-		let response = await this.env.AI.run(opt.model, {
-			messages: opt.messages,
-			stream: opt.stream,
-		});
+		let response;
+		try {
+			response = await this.env.AI.run(opt.model, {
+				messages: opt.messages,
+				stream: opt.stream,
+			})
+		} catch (err) {
+			console.log(err.stack)
+			throw (err);
+		}
 
 		if (opt.stream) {
 			return new Response(response, {
