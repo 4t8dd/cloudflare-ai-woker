@@ -50,17 +50,24 @@ class HandleCompletionOrChat implements handle {
 
 		let modelName: string = jsonData.model;
 		let stream: boolean = jsonData.stream == 'true' || false;
-		let messages = jsonData.messages;
+		let input_messages = jsonData.messages;
+		let messages = [];
+		let prompt = jsonData.prompt;
 		let type: string = jsonData.type;
+		const systemMsg = {'role':'system', 'content': 'you are friendly assistant.' };
 
-		if (!Array.isArray(messages)) {
-			throw ("messages should be array.")
+		if (!input_messages || !Array.isArray(input_messages) || !prompt) {
+			prompt = "Hi, how can I help you today?"
 		}
 
-		if (messages[0]['role'] !== 'system') {
-			messages.push({ role: 'system', content: 'you are friendly assistant.' });
+		if (prompt) {
+			messages.push([systemMsg, { 'role': 'user', 'content': prompt}]);
+		} else if (Array.isArray(input_messages) && !('role' in input_messages)){
+			messages.push(systemMsg, input_messages);
+		} else {
+			messages.push(input_messages)
 		}
-		
+
 		let modelInfo;
 		try {
 			modelInfo = getModel(modelName, 'completions');
