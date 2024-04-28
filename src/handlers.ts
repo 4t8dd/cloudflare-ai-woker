@@ -61,13 +61,14 @@ class HandleCompletionOrChat implements handle {
 		}
 
 		if (prompt) {
-			messages.push([systemMsg, { 'role': 'user', 'content': prompt}]);
+			messages.push(systemMsg, { 'role': 'user', 'content': prompt});
 		} else if (Array.isArray(input_messages) && !('role' in input_messages)){
 			messages.push(systemMsg, input_messages);
 		} else {
 			messages.push(input_messages)
 		}
 
+		console.log(messages)
 		let modelInfo;
 		try {
 			modelInfo = getModel(modelName, 'completions');
