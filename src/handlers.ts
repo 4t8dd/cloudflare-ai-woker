@@ -68,7 +68,6 @@ class HandleCompletionOrChat implements handle {
 			messages.push(input_messages)
 		}
 
-		console.log(messages)
 		let modelInfo;
 		try {
 			modelInfo = getModel(modelName, 'completions');
