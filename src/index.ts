@@ -11,7 +11,7 @@ import handler from './handlers';
 
 export interface Env {
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	myns: KVNamespace;
+	//myns: KVNamespace;
 	//
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
 	// MY_DURABLE_OBJECT: DurableObjectNamespace;
@@ -38,19 +38,18 @@ export default {
 			});
 		}
 
-		const auth = await env.myns.get("auth");
 		if (auth) {
 			const apiKey = request.headers.get('Authorization')?.split(' ')[1];
-			if (apiKey !== auth) {
+			if (apiKey !== AUTH) {
 				return new Response('Request denied', {
 					status: 401,
-					headers: { 'content-type': 'text/plain' }
+					headers: { 'content-type': 'text/plain' },
 				});
 			}
 		} else {
 			return new Response('Request denied', {
 				status: 401,
-				headers: { ' content-type': 'text/plain' }
+				headers: { ' content-type': 'text/plain' },
 			});
 		}
 

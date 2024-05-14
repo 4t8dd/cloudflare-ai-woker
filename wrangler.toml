@@ -7,8 +7,9 @@ compatibility_flags = ["nodejs_compat"]
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-# [vars]
+[vars]
 # MY_VARIABLE = "production_value"
+AUTH = "HelloWorld"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#workers-ai
@@ -59,11 +60,11 @@ binding = "AI"
 
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
-[[kv_namespaces]]
+#[[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-binding = "myns"
-id = "357ef25b6ac74dc9ad4b0dd59f22d206"
+#binding = "myns"
+#id = "357ef25b6ac74dc9ad4b0dd59f22d206"
 # Bind an mTLS certificate. Use to present a client certificate when communicating with another service.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#mtls-certificates
 # [[mtls_certificates]]
