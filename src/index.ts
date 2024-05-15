@@ -38,9 +38,9 @@ export default {
 			});
 		}
 
-		if (auth) {
+		if (env.AUTH) {
 			const apiKey = request.headers.get('Authorization')?.split(' ')[1];
-			if (apiKey !== AUTH) {
+			if (apiKey !== env.AUTH) {
 				return new Response('Request denied', {
 					status: 401,
 					headers: { 'content-type': 'text/plain' },
