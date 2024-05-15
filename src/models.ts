@@ -1,5 +1,5 @@
 const models = {
-	'completions': {
+	completions: {
 		'llama-2-7b-chat-int8': '@cf/meta/llama-2-7b-chat-int8',
 		'llama-2-7b-chat-fp16': '@cf/meta/llama-2-7b-chat-fp16',
 		'mistral-7b-instruct-v0.1': '@cf/mistral/mistral-7b-instruct-v0.1',
@@ -32,27 +32,33 @@ const models = {
 		'openchat_3.5-awq': '@hf/thebloke/openchat_3.5-awq',
 		'openhermes-2.5-mistral-7b': '@hf/thebloke/openhermes-2.5-mistral-7b-awq',
 		'zephyr-7b-beta-awq': '@hf/thebloke/zephyr-7b-beta-awq',
-		'llama-3-8b-instruct': '@cf/meta/llama-3-8b-instruct'
+		'llama-3-8b-instruct': '@cf/meta/llama-3-8b-instruct',
 	},
-	'text2img': {
+	text2img: {
 		'dreamshaper-8-lcm': '@cf/lykon/dreamshaper-8-lcm',
 		'stable-diffusion-v1-5-img2img': '@cf/runwayml/stable-diffusion-v1-5-img2img',
 		'stable-diffusion-v1-5-inpainting': '@cf/runwayml/stable-diffusion-v1-5-inpainting',
 		'stable-diffusion-xl-base-1.0': '@cf/stabilityai/stable-diffusion-xl-base-1.0',
 		'stable-diffusion-xl-lightning': '@cf/bytedance/stable-diffusion-xl-lightning',
 	},
-	'translation': { 'm2m100-1.2b': '@cf/meta/m2m100-1.2b' },
-	'asr': { 'whisper': '@cf/openai/whisper' },
-
+	translation: { 'm2m100-1.2b': '@cf/meta/m2m100-1.2b' },
+	asr: { whisper: '@cf/openai/whisper', 'whisper-tiny-en': '@cf/openai/whisper-tiny-en' },
 };
 
-const ga_models = ['whisper', 'resnet-50', 'distilbert-sst-2-int8', 'bge-base-en-v1.5',
-'bge-large-en-v1.5', 'bge-small-en-v1.5', 'llama-2-7b-chat-fp16', 'llama-2-7b-chat-int8',
-'mistral-7b-instruct-v0.1', 'm2m100-1.2b'
-]
+const ga_models = [
+	'whisper',
+	'resnet-50',
+	'distilbert-sst-2-int8',
+	'bge-base-en-v1.5',
+	'bge-large-en-v1.5',
+	'bge-small-en-v1.5',
+	'llama-2-7b-chat-fp16',
+	'llama-2-7b-chat-int8',
+	'mistral-7b-instruct-v0.1',
+	'm2m100-1.2b',
+];
 
-export default function getModel(name: string, type:string): {[key:string]: string} {
-
+export default function getModel(name: string, type: string): { [key: string]: string } {
 	let model: string = '';
 	let models_ = JSON.parse(JSON.stringify(models));
 	if (name in models_[type]) {
@@ -62,9 +68,8 @@ export default function getModel(name: string, type:string): {[key:string]: stri
 		} else {
 			release = 'beta';
 		}
-		return { 'release': release, 'model': models_[type][name] };
+		return { release: release, model: models_[type][name] };
 	}
-	
-	throw('model not found: ' + name )
-}
 
+	throw 'model not found: ' + name;
+}
