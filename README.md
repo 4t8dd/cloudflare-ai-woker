@@ -113,15 +113,9 @@ Note:
 
 ## Authorization
 
-You will need sort of auth to protect your API.
-Currently, KVnamesapce is used for this.
+You will need sort of auth to protect your API. ~~Currently, KVnamesapce is used for this.~~
 
-1. setup your KVnamespace with (wrangler CLI)[https://developers.cloudflare.com/kv/get-started/#3-create-a-kv-namespace] or from (dashboard)[https://developers.cloudflare.com/kv/get-started/#create-a-kv-namespace-via-the-dashboard].
-   For CLI, after `npm install`, you can use `npx wrangler kv:namespace`.
-
-2. use it from Your APIs.
-
-3. Replace your KVnamespace from wrangler.toml
+Set it up from your worker setting/Variables, AUTH = "your auth key".
 
 Voila!!
 
