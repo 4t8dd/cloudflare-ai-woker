@@ -126,8 +126,3 @@ Voila!!
 2. `npx wranger dev` to launch the local env.
 
 3. test your api with curl or other script language
-
-## TODO
-
-1. Currently KVnamespace is used and use will be charged when it is out of free credits
-   A user friendly Auth method will be nice.
